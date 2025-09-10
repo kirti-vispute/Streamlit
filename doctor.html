@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>AyurSutra — Doctor Portal</title>
+
+  <!-- Tailwind-like utilities used for layout only (CDN) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <!-- Chart.js for charts (unchanged) -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- Local stylesheet -->
+  <link rel="stylesheet" href="doctor.css">
+</head>
+<body class="gradient-bg min-h-screen text-sage-900">
+
+  <!-- Header -->
+  <header class="sticky top-0 z-50 bg-transparent backdrop-blur-sm py-4">
+    <div class="max-w-7xl mx-auto px-6 flex items-center justify-between">
+      <div class="flex items-center gap-4">
+        <h1 class="font-serif text-3xl tracking-wide select-none">AyurSutra</h1>
+      </div>
+      <div class="flex items-center gap-3">
+        <button id="btn-open-profile-mini" title="Open profile quick" class="bg-white px-3 py-1 rounded-full border">Profile</button>
+        <button id="logout-button" class="bg-sage-600 text-white px-4 py-2 rounded-full font-semibold hover:bg-sage-700 transition">Log Out</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Toast placeholder -->
+  <div id="toast-root" aria-live="polite" class="fixed top-6 left-1/2 -translate-x-1/2 z-50"></div>
+
+  <!-- Main -->
+  <main class="max-w-7xl mx-auto px-6 py-12">
+
+    <!-- Welcome -->
+    <div class="text-center mb-10">
+      <h2 id="welcome-text" class="font-serif text-3xl md:text-4xl text-sage-800">Welcome, Doctor!</h2>
+    </div>
+
+    <!-- Tiles (Dashboard) -->
+    <div id="dashboard" class="max-w-6xl mx-auto mb-12">
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+        <button class="feature-tile" data-target="profile-section"><svg class="tile-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 12a5 5 0 100-10 5 5 0 000 10zm-8 9a8 8 0 0116 0H4z"/></svg><span class="tile-label">My Profile</span></button>
+
+        <button class="feature-tile" data-target="treatments-section"><svg class="tile-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L8 7h8l-4-5zM4 11h16v9H4z"/></svg><span class="tile-label">Treatments</span></button>
+
+        <button class="feature-tile" data-target="booking-section"><svg class="tile-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M7 10h10v2H7zM5 21h14V7H5zM7 3h2v2H7zM15 3h2v2h-2z"/></svg><span class="tile-label">My Patients</span></button>
+
+        <button class="feature-tile" data-target="appointments-section"><svg class="tile-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M7 7h10v2H7zM3 17h18v2H3z"/></svg><span class="tile-label">My Appointments</span></button>
+
+        <button class="feature-tile" data-target="plans-section"><svg class="tile-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M3 13h8v8H3zM13 3h8v8h-8z"/></svg><span class="tile-label">Case Study</span></button>
+
+        <button class="feature-tile" data-target="charts-section"><svg class="tile-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M5 20h14v2H5zM7 10h2v10H7zM11 6h2v14h-2zM15 2h2v18h-2z"/></svg><span class="tile-label">Progress Charts</span></button>
+
+        <button class="feature-tile" data-target="feedback-section"><svg class="tile-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M21 6h-2V4a2 2 0 00-2-2H7a2 2 0 00-2 2v2H3v13l4-3h10l4 3V6z"/></svg><span class="tile-label">Feedback</span></button>
+
+        <button id="emergency-btn" class="feature-tile emergency-tile" data-target="emergency-section"><svg class="tile-icon emergency-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L2 22h20L12 2zM11 9h2v5h-2V9zm0 7h2v2h-2v-2z"/></svg><span class="tile-label emergency-label">Emergency</span></button>
+      </div>
+    </div>
+
+    <!-- Sections (hidden & toggled by JS) -->
+
+    <!-- Profile -->
+    <section id="profile-section" class="page-content hidden max-w-5xl mx-auto mt-6">
+      <div class="bg-white p-8 rounded-2xl shadow border border-sage-100">
+        <div class="flex justify-between items-start mb-4">
+          <h3 class="text-2xl font-serif">My Profile</h3>
+          <button class="go-dashboard btn-back">Go to Dashboard</button>
+        </div>
+        <form id="profile-form" class="grid md:grid-cols-3 gap-6">
+          <div class="md:col-span-1 flex flex-col items-center">
+            <img id="profile-photo" src="" alt="profile" class="w-48 h-48 rounded-full object-cover border border-sage-100 mb-4">
+            <input type="file" id="photo-input" accept="image/*">
+            <p class="text-xs text-gray-500 mt-2">Recommended: 512×512, &lt;500KB</p>
+          </div>
+
+          <div class="md:col-span-2 space-y-3">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+              <div><label class="block text-sage-700">Full Name</label><input id="profile-name" class="w-full p-3 border rounded" required></div>
+              <div><label class="block text-sage-700">Specialization</label><input id="profile-spec" class="w-full p-3 border rounded"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+              <div><label class="block text-sage-700">Email</label><input id="profile-email" type="email" class="w-full p-3 border rounded"></div>
+              <div><label class="block text-sage-700">Phone</label><input id="profile-phone" class="w-full p-3 border rounded"></div>
+              <div><label class="block text-sage-700">Clinic Hours</label><input id="profile-hours" placeholder="10:00–18:00" class="w-full p-3 border rounded"></div>
+            </div>
+
+            <div>
+              <label class="block text-sage-700">Bio</label>
+              <textarea id="profile-bio" rows="4" class="w-full p-3 border rounded"></textarea>
+            </div>
+
+            <div class="flex justify-end gap-3">
+              <button type="button" id="profile-cancel" class="btn-back">Cancel</button>
+              <button type="submit" class="px-6 py-2 bg-sage-600 text-white rounded-full">Save Profile</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <!-- Treatments -->
+    <section id="treatments-section" class="page-content hidden mt-6 max-w-6xl mx-auto">
+      <div class="bg-white p-8 rounded-2xl shadow border border-sage-100">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="text-2xl font-serif">Treatments</h3>
+          <button class="go-dashboard btn-back">Go to Dashboard</button>
+        </div>
+
+        <div class="flex items-center justify-between mb-4">
+          <div class="flex gap-2">
+            <input id="treatment-search" placeholder="Search treatment" class="p-2 border rounded" />
+            <button id="treatment-add-btn" class="px-4 py-2 bg-sage-600 text-white rounded-full">New</button>
+          </div>
+        </div>
+
+        <div id="treatments-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+      </div>
+    </section>
+
+    <!-- Treatment detail -->
+    <section id="treatment-detail-section" class="page-content hidden mt-6 max-w-4xl mx-auto">
+      <div class="bg-white p-6 rounded-2xl shadow border border-sage-100">
+        <div class="flex justify-between items-start mb-4">
+          <div></div>
+          <button class="go-dashboard btn-back">Go to Dashboard</button>
+        </div>
+        <div id="treatment-detail-content"></div>
+        <div class="text-right mt-4">
+          <button class="btn-back">Back</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- BOOKING (My Patients) -->
+    <section id="booking-section" class="page-content hidden mt-6 max-w-6xl mx-auto">
+      <div class="bg-white p-6 rounded-2xl shadow border border-sage-100">
+        <div class="flex items-start justify-between mb-4">
+          <h3 class="text-2xl font-serif">My Patients</h3>
+          <div class="flex items-center gap-3">
+            <button class="go-dashboard btn-back">Go to Dashboard</button>
+          </div>
+        </div>
+
+        <p class="text-gray-700 mb-4">
+          Here the doctor can check patient's medical history, allergies and other patient information (email, phone etc).
+          Click a patient to view detailed profile, medical history and appointments.
+        </p>
+
+        <div class="flex gap-3 items-center mb-4">
+          <input id="patients-search" placeholder="Search by name or email" class="p-3 border rounded flex-1" />
+          <button id="patient-new-btn" class="px-4 py-2 bg-sage-600 text-white rounded-full">New Patient</button>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-6">
+          <div id="patients-list" class="space-y-3 md:col-span-1 max-h-[60vh] overflow-auto p-2 border rounded"></div>
+
+          <div class="md:col-span-2 p-4 border rounded bg-sage-50">
+            <div id="patient-detail-empty" class="text-gray-500">
+              Select a patient to view details.
+            </div>
+
+            <div id="patient-detail" style="display:none">
+              <div class="flex justify-between items-start mb-3">
+                <div>
+                  <h4 id="pd-name" class="text-xl font-semibold text-sage-800"></h4>
+                  <div id="pd-contact" class="text-sm text-gray-700"></div>
+                </div>
+                <div>
+                  <button id="patient-edit-toggle" class="px-3 py-1 border rounded btn-back">Edit</button>
+                </div>
+              </div>
+
+              <div id="patient-info" class="space-y-3">
+                <div>
+                  <strong>Medical History</strong>
+                  <ul id="pd-history" class="list-disc list-inside text-sm text-gray-700 mt-2"></ul>
+                </div>
+
+                <div>
+                  <strong>Allergies</strong>
+                  <div id="pd-allergies" class="mt-2 flex gap-2 flex-wrap"></div>
+                  <div class="mt-2 flex gap-2">
+                    <input id="pd-new-allergy" placeholder="Add allergy (e.g., Penicillin)" class="p-2 border rounded flex-1">
+                    <button id="pd-add-allergy" class="px-3 py-1 bg-sage-600 text-white rounded">Add</button>
+                  </div>
+                </div>
+
+                <div>
+                  <strong>Notes</strong>
+                  <textarea id="pd-notes" rows="4" class="w-full p-2 border rounded"></textarea>
+                </div>
+
+                <div>
+                  <strong>Appointments</strong>
+                  <div id="pd-appts" class="mt-2 text-sm text-gray-700"></div>
+                </div>
+
+                <div class="mt-4 flex justify-end gap-3">
+                  <button id="pd-save" class="px-4 py-2 bg-sage-600 text-white rounded-full">Save</button>
+                  <button id="pd-close" class="btn-back">Close</button>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PLANS => CASE STUDY (SOAP) -->
+    <section id="plans-section" class="page-content hidden mt-6 max-w-6xl mx-auto">
+      <div class="bg-white p-6 rounded-2xl shadow border border-sage-100">
+        <div class="flex items-start justify-between mb-4">
+          <h3 class="text-2xl font-serif">Case Study — SOAP Notes</h3>
+          <div class="flex items-center gap-3">
+            <button class="go-dashboard btn-back">Go to Dashboard</button>
+            <button id="plan-new-btn" class="px-4 py-2 bg-sage-600 text-white rounded-full">New Case</button>
+          </div>
+        </div>
+
+        <p class="text-gray-700 mb-4">
+          Allow doctor to add structured case notes for each patient visit in SOAP format, review past notes quickly, and attach supporting files/reports.
+        </p>
+
+        <div class="grid md:grid-cols-3 gap-6">
+          <!-- Left: list of case studies -->
+          <div class="md:col-span-1 border rounded p-3 max-h-[60vh] overflow-auto">
+            <div class="mb-3">
+              <label class="text-sm text-sage-700">Filter by patient</label>
+              <select id="case-patient-filter" class="w-full p-2 border rounded">
+                <option value="">— All patients —</option>
+              </select>
+            </div>
+
+            <div id="cases-list" class="space-y-3">
+              <!-- case cards populated by JS -->
+            </div>
+          </div>
+
+          <!-- Right: detail + form -->
+          <div class="md:col-span-2 border rounded p-4 bg-sage-50">
+            <div id="case-empty" class="text-gray-500">Choose or create a case note to view / edit here.</div>
+
+            <div id="case-detail" style="display:none">
+              <div class="flex justify-between items-start mb-3">
+                <div>
+                  <h4 id="case-title" class="text-xl font-semibold text-sage-800"></h4>
+                  <div id="case-meta" class="text-sm text-gray-700"></div>
+                </div>
+                <div>
+                  <button id="case-close" class="btn-back">Close</button>
+                </div>
+              </div>
+
+              <form id="case-form" class="space-y-3">
+                <div>
+                  <label class="text-sm">Patient</label>
+                  <select id="case-patient" class="w-full p-2 border rounded" required></select>
+                </div>
+
+                <div>
+                  <label class="text-sm">Subjective</label>
+                  <textarea id="case-subjective" rows="3" class="w-full p-2 border rounded" placeholder="Patient's account, symptoms, complaints"></textarea>
+                </div>
+
+                <div>
+                  <label class="text-sm">Objective</label>
+                  <textarea id="case-objective" rows="3" class="w-full p-2 border rounded" placeholder="Observations, vitals, exam findings"></textarea>
+                </div>
+
+                <div>
+                  <label class="text-sm">Assessment</label>
+                  <textarea id="case-assessment" rows="2" class="w-full p-2 border rounded" placeholder="Clinical impression / diagnosis"></textarea>
+                </div>
+
+                <div>
+                  <label class="text-sm">Plan</label>
+                  <textarea id="case-plan" rows="2" class="w-full p-2 border rounded" placeholder="Treatment, investigations, follow-up"></textarea>
+                </div>
+
+                <div>
+                  <label class="text-sm">Attachments (reports, images) — small files recommended</label>
+                  <input id="case-files" type="file" multiple class="w-full mt-2" />
+                  <div id="case-attachments" class="mt-2 space-y-2"></div>
+                </div>
+
+                <div class="flex justify-end gap-3">
+                  <button type="button" id="case-delete" class="btn-back">Delete</button>
+                  <button type="submit" id="case-save" class="px-6 py-2 bg-sage-600 text-white rounded-full">Save Case</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Charts -->
+    <section id="charts-section" class="page-content hidden mt-6 max-w-6xl mx-auto">
+      <div class="bg-white p-8 rounded-2xl shadow border border-sage-100">
+        <div class="flex justify-between items-start mb-4">
+          <h3 class="text-2xl font-serif">Progress Charts</h3>
+          <button class="go-dashboard btn-back">Go to Dashboard</button>
+        </div>
+        <div class="grid md:grid-cols-2 gap-6">
+          <div class="p-4 border rounded"><canvas id="chart-patient" height="160"></canvas></div>
+          <div class="p-4 border rounded"><canvas id="chart-therapy" height="160"></canvas></div>
+        </div>
+        <div class="text-right mt-4"><button class="btn-back">Back</button></div>
+      </div>
+    </section>
+
+    <!-- Feedback -->
+    <section id="feedback-section" class="page-content hidden mt-6 max-w-6xl mx-auto">
+      <div class="bg-white p-8 rounded-2xl shadow border border-sage-100">
+        <div class="flex justify-between items-start mb-4">
+          <h3 class="text-2xl font-serif">Feedback & Incidents</h3>
+          <button class="go-dashboard btn-back">Go to Dashboard</button>
+        </div>
+
+        <div class="flex gap-3 mb-4">
+          <button class="feedback-filter px-3 py-1 border rounded" data-filter="all">All</button>
+          <button class="feedback-filter px-3 py-1 border rounded" data-filter="unresolved">Unresolved</button>
+          <button class="feedback-filter px-3 py-1 border rounded" data-filter="high">High Severity</button>
+        </div>
+        <div id="feedback-list" class="space-y-3"></div>
+        <div class="text-right mt-4"><button class="btn-back">Back</button></div>
+      </div>
+    </section>
+
+    <!-- Emergency -->
+    <section id="emergency-section" class="page-content hidden mt-6 max-w-4xl mx-auto">
+      <div class="bg-white p-8 rounded-2xl shadow border border-sage-100">
+        <div class="flex justify-between items-start mb-4">
+          <h3 class="text-2xl font-serif text-red-700">Emergency</h3>
+          <button class="go-dashboard btn-back">Go to Dashboard</button>
+        </div>
+        <p class="text-gray-700">Trigger emergency workflow and notify on-call staff. This creates an incident and queues notifications.</p>
+        <div class="mt-4 flex gap-3">
+          <input id="emergency-patient" placeholder="Patient email (optional)" class="p-3 border rounded flex-1" />
+          <button id="emergency-action" class="px-4 py-2 bg-red-600 text-white rounded-full">Trigger Emergency</button>
+        </div>
+        <div class="text-right mt-4"><button class="btn-back">Back</button></div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="text-center py-8 text-sage-700">© 2025 AyurSutra. All rights reserved.</footer>
+
+  <!-- Load the script after DOM parsing so event listeners attach reliably -->
+  <script src="doctor.js" defer></script>
+</body>
+</html>
