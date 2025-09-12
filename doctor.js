@@ -303,6 +303,8 @@ function renderAppointments(filterDate=null){
     if (!ap) return toast("Appointment not found", "error");
     ap.status = "in_session";
     save(STORAGE.APPTS, appts);
+    // Sync to Firestore if available
+    try { if (window.DoctorFB && window.DoctorFB.updateAppointment) window.DoctorFB.updateAppointment(id, { status: 'In Session' }); } catch(_){ }
     toast("Session started for " + (ap.patientName || ap.patientEmail));
     renderAppointments();
   }));
@@ -323,6 +325,8 @@ function renderAppointments(filterDate=null){
     ap.start = newStart;
     ap.status = "confirmed";
     save(STORAGE.APPTS, appts);
+    // Sync to Firestore if available (update date/time fields)
+    try { if (window.DoctorFB && window.DoctorFB.updateAppointment) window.DoctorFB.updateAppointment(id, { date: newDate, time: newTime, status: 'Confirmed' }); } catch(_){ }
     toast("Appointment rescheduled");
     renderAppointments();
   }));
@@ -333,6 +337,8 @@ function renderAppointments(filterDate=null){
     let appts = load(STORAGE.APPTS) || [];
     appts = appts.map(a => a.id === id ? { ...a, status: "cancelled" } : a);
     save(STORAGE.APPTS, appts);
+    // Sync to Firestore if available
+    try { if (window.DoctorFB && window.DoctorFB.updateAppointment) window.DoctorFB.updateAppointment(id, { status: 'Cancelled' }); } catch(_){ }
     toast("Appointment cancelled");
     renderAppointments();
   }));
@@ -537,6 +543,22 @@ document.addEventListener('DOMContentLoaded', () => {
         bio: (document.getElementById('profile-bio')?.value || '').trim()
       };
       save(STORAGE.PROFILE, updated);
+      // Sync to Firestore profile if available
+      try {
+        if (window.DoctorFB && window.DoctorFB.auth?.currentUser) {
+          const uid = window.DoctorFB.auth.currentUser.uid;
+          window.DoctorFB.saveDoctorProfile(uid, {
+            name: updated.name,
+            email: updated.email,
+            phone: updated.phone,
+            specialization: updated.specialization,
+            hours: updated.hours,
+            age: updated.age,
+            gender: updated.gender,
+            bio: updated.bio
+          });
+        }
+      } catch(_){ }
       toast('Profile saved');
       // refresh welcome text everywhere
       const wt = document.getElementById('welcome-text'); if (wt) wt.textContent = `Welcome, ${getDoctorDisplayName()} !`;
@@ -544,6 +566,62 @@ document.addEventListener('DOMContentLoaded', () => {
       loadProfileToForm();
     });
   }
+  // Photo upload -> upload to Storage if available and save URL
+  const photoInput = document.getElementById('photo-input');
+  if (photoInput) {
+    photoInput.addEventListener('change', async (ev) => {
+      const file = ev.target.files && ev.target.files[0];
+      if (!file) return;
+      try {
+        if (window.DoctorFB && window.DoctorFB.auth?.currentUser) {
+          const uid = window.DoctorFB.auth.currentUser.uid;
+          const url = await window.DoctorFB.uploadProfilePhoto(uid, file);
+          const p = load(STORAGE.PROFILE) || {};
+          p.photo = url;
+          save(STORAGE.PROFILE, p);
+          const img = document.getElementById('profile-photo'); if (img) img.src = url;
+          await window.DoctorFB.saveDoctorProfile(uid, { photo: url });
+          toast('Profile photo updated');
+        } else {
+          toast('Logged in required to upload photo', 'error');
+        }
+      } catch(e){ toast('Photo upload failed', 'error'); }
+    });
+  }
+
+  // Live appointments from Firestore (if available)
+  try {
+    if (window.DoctorFB && window.DoctorFB.subscribeAppointments) {
+      window.DoctorFB.subscribeAppointments((items) => {
+        // Map Firestore appointments to local model used by renderer
+        const mapped = items.map(a => {
+          // Patient name/email already enriched in doctor.fb.js
+          const startIso = (()=>{
+            // Combine patient portal's date & time into ISO
+            if (a.date && a.time) {
+              const iso = new Date(`${a.date}T${(a.time||'').replace(/\s*(AM|PM)/i,'')}`).toISOString();
+              return iso;
+            }
+            return a.start || new Date().toISOString();
+          })();
+          const treatmentsList = Array.isArray(a.treatments) ? a.treatments.map(t => t.name || t).filter(Boolean) : [];
+          return {
+            id: a.id,
+            treatments: treatmentsList,
+            start: startIso,
+            duration: 60,
+            patientEmail: a.patientEmail || '',
+            patientName: a.patientName || a.patientEmail || '',
+            notes: a.center ? `${a.center}${a.practitioner ? ' • ' + a.practitioner : ''}` : (a.notes || ''),
+            status: (a.status || 'Confirmed').toLowerCase()
+          };
+        });
+        save(STORAGE.APPTS, mapped);
+        // If appointments page is visible, re-render
+        renderAppointments();
+      });
+    }
+  } catch(_){ }
 });
 
 /* ---------- Progress Charts (Chart.js with graceful fallback) ---------- */
