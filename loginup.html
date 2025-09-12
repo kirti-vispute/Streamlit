@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login / Sign Up - AyurSutra</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&family=Crimson+Text:wght@400;600&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            cream: {50:'#fefdf8',100:'#fef7e0',200:'#fdeaa7',300:'#fbdc6d'},
+            sage: {50:'#f6f7f0',100:'#e8ede0',200:'#d1dac2',300:'#b3c49c',400:'#8faa76',500:'#6b8e4e',600:'#567a3e',700:'#456334',800:'#39502c',900:'#2d4024'}
+          },
+          fontFamily: {serif:['Playfair Display','serif'], body:['Inter','sans-serif'], text:['Crimson Text','serif']}
+        }
+      }
+    }
+  </script>
+  <style>
+    .glow-card{box-shadow:0 8px 20px rgba(107,142,78,.15),0 2px 6px rgba(0,0,0,.05);transition:transform .3s ease,box-shadow .3s ease}
+    .glow-card:hover{transform:translateY(-4px);box-shadow:0 12px 28px rgba(107,142,78,.25),0 4px 12px rgba(0,0,0,.08)}
+    .form-container{display:none}
+    .form-container.active{display:block}
+    .segmented-control{display:flex;border:1px solid #d1dac2;border-radius:.5rem;overflow:hidden;box-shadow:inset 0 1px 3px rgba(0,0,0,.05)}
+    .segmented-control>label{flex:1;text-align:center;cursor:pointer;transition:background-color .2s,color .2s,transform .2s}
+    .segmented-control .control-label:hover{background-color:#f6f7f0}
+  </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-cream-50 via-sage-50 to-sage-100 font-body">
+
+  <div class="md:flex bg-white rounded-2xl glow-card max-w-5xl w-full border border-sage-100 overflow-hidden">
+    <div class="md:w-1/2 p-10 flex flex-col justify-center items-center text-center bg-sage-50">
+      <h1 class="text-6xl font-serif font-bold tracking-wide bg-gradient-to-r from-sage-700 to-sage-500 text-transparent bg-clip-text mb-6">AyurSutra</h1>
+      <h2 class="text-3xl font-serif font-semibold text-sage-900 mb-4">Your Journey to Holistic Healing</h2>
+      <p class="font-text text-sage-700 text-lg max-w-md leading-relaxed">
+        Experience authentic Panchakarma therapies that detoxify, rejuvenate, and restore balance. 
+        Sign in to begin your personalized wellness journey.
+      </p>
+    </div>
+
+    <div class="md:w-1/2 p-10 bg-white">
+      <h1 id="form-title" class="text-3xl font-serif font-semibold text-center text-sage-800 mb-6">Log In</h1>
+
+      <div id="message-box" class="hidden text-sm px-4 py-3 rounded-lg mb-4 border" role="alert">
+        <p id="message-text"></p>
+      </div>
+
+      <!-- Sign In -->
+      <div id="signin-form-container" class="form-container active">
+        <form id="signin-form" class="space-y-6">
+          <div>
+            <label class="block text-sm font-medium text-sage-700 mb-2">Select your role...</label>
+            <div class="segmented-control border-sage-200">
+              <label class="relative block">
+                <input type="radio" name="signinUserType" value="patient" required class="sr-only peer">
+                <div class="w-full py-3 px-4 text-center text-sage-600 transition-all duration-200 control-label hover:bg-sage-50 peer-checked:bg-sage-100 peer-checked:text-sage-800">Patient</div>
+              </label>
+              <label class="relative block">
+                <input type="radio" name="signinUserType" value="staff" class="sr-only peer">
+                <div class="w-full py-3 px-4 text-center text-sage-600 transition-all duration-200 control-label hover:bg-sage-50 peer-checked:bg-sage-100 peer-checked:text-sage-800">Staff</div>
+              </label>
+              <label class="relative block">
+                <input type="radio" name="signinUserType" value="admin" class="sr-only peer">
+                <div class="w-full py-3 px-4 text-center text-sage-600 transition-all duration-200 control-label hover:bg-sage-50 peer-checked:bg-sage-100 peer-checked:text-sage-800">Admin</div>
+              </label>
+            </div>
+          </div>
+          <div>
+            <label for="signin-email" class="block text-sm font-medium text-sage-700 mb-1">Email address</label>
+            <input type="email" id="signin-email" name="email" required class="w-full px-4 py-2 rounded-lg border border-sage-200 focus:ring-sage-500 focus:border-sage-500 transition duration-200">
+          </div>
+          <div>
+            <label for="signin-password" class="block text-sm font-medium text-sage-700 mb-1">Password</label>
+            <input type="password" id="signin-password" name="password" required class="w-full px-4 py-2 rounded-lg border border-sage-200 focus:ring-sage-500 focus:border-sage-500 transition duration-200">
+          </div>
+          <button type="submit" class="w-full bg-sage-600 text-white py-3 rounded-lg font-semibold hover:bg-sage-700 transition duration-300 shadow-md uppercase tracking-wider text-sm">Log In</button>
+        </form>
+        <p class="mt-4 text-center text-sm text-sage-600">
+          Don't have an account?
+          <a href="#" id="signup-link" class="font-medium text-sage-600 hover:text-sage-500">Create One</a>
+        </p>
+      </div>
+
+      <!-- Sign Up -->
+      <div id="signup-form-container" class="form-container">
+        <form id="signup-form" class="space-y-6">
+          <div>
+            <label class="block text-sm font-medium text-sage-700 mb-2">Select your role.</label>
+            <div class="segmented-control border-sage-200">
+              <label class="relative block">
+                <input type="radio" name="signupUserType" value="patient" required class="sr-only peer">
+                <div class="w-full py-3 px-4 text-center text-sage-600 transition-all duration-200 control-label hover:bg-sage-50 peer-checked:bg-sage-100 peer-checked:text-sage-800">Patient</div>
+              </label>
+              <label class="relative block">
+                <input type="radio" name="signupUserType" value="staff" class="sr-only peer">
+                <div class="w-full py-3 px-4 text-center text-sage-600 transition-all duration-200 control-label hover:bg-sage-50 peer-checked:bg-sage-100 peer-checked:text-sage-800">Staff</div>
+              </label>
+              <label class="relative block">
+                <input type="radio" name="signupUserType" value="admin" class="sr-only peer">
+                <div class="w-full py-3 px-4 text-center text-sage-600 transition-all duration-200 control-label hover:bg-sage-50 peer-checked:bg-sage-100 peer-checked:text-sage-800">Admin</div>
+              </label>
+            </div>
+          </div>
+          <div>
+            <label for="signup-email" class="block text-sm font-medium text-sage-700 mb-1">Email address</label>
+            <input type="email" id="signup-email" name="email" required class="w-full px-4 py-2 rounded-lg border border-sage-200 focus:ring-sage-500 focus:border-sage-500 transition duration-200">
+          </div>
+          <div>
+            <label for="signup-password" class="block text-sm font-medium text-sage-700 mb-1">Password</label>
+            <input type="password" id="signup-password" name="password" required class="w-full px-4 py-2 rounded-lg border border-sage-200 focus:ring-sage-500 focus:border-sage-500 transition duration-200">
+          </div>
+          <button type="submit" class="w-full bg-sage-600 text-white py-3 rounded-lg font-semibold hover:bg-sage-700 transition duration-300 shadow-md uppercase tracking-wider text-sm">Create Account</button>
+        </form>
+        <p class="mt-4 text-center text-sm text-sage-600">
+          Already have an account?
+          <a href="#" id="signin-link" class="font-medium text-sage-600 hover:text-sage-500">Log In</a>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Staff Details Modal (added, uses existing utility classes) -->
+  <div id="staff-details-overlay" class="fixed inset-0 bg-black bg-opacity-30 hidden items-center justify-center p-4" aria-hidden="true">
+    <div class="bg-white rounded-2xl max-w-lg w-full p-6 border border-sage-100 shadow-xl">
+      <h3 class="text-xl font-serif font-semibold text-sage-900 mb-4">Complete Staff Details</h3>
+      <p class="text-sm text-sage-700 mb-4">Please provide details to finish setting up your staff profile.</p>
+      <form id="staff-details-form" class="space-y-4" novalidate>
+        <div>
+          <label for="staff-fullname" class="block text-sm font-medium text-sage-700 mb-1">Full name</label>
+          <input id="staff-fullname" name="fullname" type="text" required class="w-full px-4 py-2 rounded-lg border border-sage-200 focus:ring-sage-500 focus:border-sage-500 transition duration-200">
+          <p id="err-fullname" class="mt-1 text-sm text-red-600 hidden">Please enter your full name.</p>
+        </div>
+        <div>
+          <label for="staff-birthdate" class="block text-sm font-medium text-sage-700 mb-1">Birthdate</label>
+          <input id="staff-birthdate" name="birthdate" type="date" required class="w-full px-4 py-2 rounded-lg border border-sage-200 focus:ring-sage-500 focus:border-sage-500 transition duration-200">
+          <p id="err-birthdate" class="mt-1 text-sm text-red-600 hidden">Please enter a valid date (YYYY-MM-DD).</p>
+        </div>
+        <div>
+          <label for="staff-phone" class="block text-sm font-medium text-sage-700 mb-1">Phone number</label>
+          <input id="staff-phone" name="phone" type="tel" inputmode="tel" required placeholder="e.g., +919876543210" class="w-full px-4 py-2 rounded-lg border border-sage-200 focus:ring-sage-500 focus:border-sage-500 transition duration-200">
+          <p id="err-phone" class="mt-1 text-sm text-red-600 hidden">Enter 7–15 digits (numbers, optional leading +).</p>
+        </div>
+        <div class="flex justify-end gap-3 pt-2">
+          <button type="button" id="staff-cancel" class="px-4 py-2 bg-white border border-sage-200 rounded-lg">Cancel</button>
+          <button type="submit" class="px-5 py-2 bg-sage-600 text-white rounded-lg font-semibold hover:bg-sage-700 transition">Save Details</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Firebase + Routing -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
+    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js";
+    import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
+
+    // Firebase config (kept the same as yours)
+    const firebaseConfig = {
+      apiKey: "AIzaSyC6gvn7RRTxlFLN9kqMzrn3hS26b9vCMYM",
+      authDomain: "ayursutra-f90d2.firebaseapp.com",
+      projectId: "ayursutra-f90d2",
+      storageBucket: "ayursutra-f90d2.firebasestorage.app",
+      messagingSenderId: "1014791978312",
+      appId: "1:1014791978312:web:938b6861c94f0a3a81477d",
+      measurementId: "G-Y0CDSS5NWD"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    const signinFormContainer = document.getElementById('signin-form-container');
+    const signupFormContainer = document.getElementById('signup-form-container');
+    const formTitle = document.getElementById('form-title');
+    const messageBox = document.getElementById('message-box');
+    const messageText = document.getElementById('message-text');
+
+    // toggle links
+    document.querySelectorAll('#signin-link').forEach(link => {
+      link.addEventListener('click', e => { e.preventDefault(); toggleForm('signin'); });
+    });
+    const signupLink = document.getElementById('signup-link');
+    if (signupLink) {
+      signupLink.addEventListener('click', e => { e.preventDefault(); toggleForm('signup'); });
+    }
+
+    function showMessage(message, type='success') {
+      messageText.textContent = message;
+      messageBox.className = 'text-sm px-4 py-3 rounded-lg mb-4 border';
+      if (type === 'success') {
+        messageBox.classList.add('bg-sage-50','border-sage-300','text-sage-800');
+      } else {
+        messageBox.classList.add('bg-red-50','border-red-300','text-red-800');
+      }
+      messageBox.classList.remove('hidden');
+    }
+
+    function toggleForm(which) {
+      messageBox.classList.add('hidden');
+      if (which === 'signup') {
+        signinFormContainer.classList.remove('active');
+        signupFormContainer.classList.add('active');
+        formTitle.textContent = 'Create Your Account';
+      } else {
+        signupFormContainer.classList.remove('active');
+        signinFormContainer.classList.add('active');
+        formTitle.textContent = 'Log In';
+      }
+    }
+
+    // --- SIGN UP: save role then (optionally) route ---
+    document.getElementById('signup-form').addEventListener('submit', async e => {
+      e.preventDefault();
+      const email = document.getElementById('signup-email').value.trim();
+      const password = document.getElementById('signup-password').value;
+      const roleInput = document.querySelector('input[name="signupUserType"]:checked');
+      if (!roleInput) { showMessage('Please select a user type.', 'error'); return; }
+      const role = roleInput.value;
+
+      try {
+        const cred = await createUserWithEmailAndPassword(auth, email, password);
+        await setDoc(doc(db, "users", cred.user.uid), { email, role });
+        // Keep your current UX: ask them to log in after sign up
+        showMessage('Account created successfully! Please log in.', 'success');
+        toggleForm('signin');
+        document.getElementById('signin-email').value = email;
+        // If staff, open details modal immediately after account creation
+        if (role === 'staff') {
+          try { localStorage.setItem('doc_login_email', email); } catch(_){}
+          openStaffDetailsModal(email);
+        }
+      } catch (err) {
+        showMessage(`Error: ${err.message}`, 'error');
+      }
+    });
+
+    // --- SIGN IN: verify role, then route (Staff → doctor.html) ---
+    document.getElementById('signin-form').addEventListener('submit', async e => {
+      e.preventDefault();
+      const email = document.getElementById('signin-email').value.trim();
+      const password = document.getElementById('signin-password').value;
+      const roleInput = document.querySelector('input[name="signinUserType"]:checked');
+      if (!roleInput) { showMessage('Please select a user type.', 'error'); return; }
+      const selectedRole = roleInput.value;
+
+      try {
+        const { user } = await signInWithEmailAndPassword(auth, email, password);
+        const snap = await getDoc(doc(db, "users", user.uid));
+        if (!snap.exists()) {
+          showMessage('User profile not found. Please contact support.', 'error');
+          await signOut(auth);
+          return;
+        }
+        const storedRole = (snap.data().role || '').toLowerCase();
+        if (storedRole !== selectedRole) {
+          showMessage('Role selection does not match your account.', 'error');
+          await signOut(auth);
+          return;
+        }
+
+        // ✅ FINAL ROUTING
+        if (storedRole === 'staff') {
+          // Persist email in localStorage so doctor portal can prefill
+          try { localStorage.setItem('doc_login_email', email); } catch(_){}
+          window.location.href = 'doctor.html';   // changed from staff.html → doctor.html
+        } else if (storedRole === 'patient') {
+          window.location.href = 'patient.html';
+        } else if (storedRole === 'admin') {
+          window.location.href = 'admin.html';
+        } else {
+          // Fallback: send to home if role unknown
+          window.location.href = 'index.html';
+        }
+      } catch (err) {
+        let msg = "Invalid email or password. Please try again.";
+        if (['auth/wrong-password','auth/user-not-found','auth/invalid-credential'].includes(err.code)) {
+          msg = "Invalid email or password. Please try again.";
+        }
+        showMessage(msg, 'error');
+      }
+    });
+
+    // ---- Staff details modal logic ----
+    const overlay = document.getElementById('staff-details-overlay');
+    const form = document.getElementById('staff-details-form');
+    const cancelBtn = document.getElementById('staff-cancel');
+    const fullnameEl = document.getElementById('staff-fullname');
+    const birthdateEl = document.getElementById('staff-birthdate');
+    const phoneEl = document.getElementById('staff-phone');
+
+    function openStaffDetailsModal(email) {
+      // prefill from existing profile if available
+      try {
+        const existing = JSON.parse(localStorage.getItem('doc_profile_v1') || '{}') || {};
+        if (existing.fullname) fullnameEl.value = existing.fullname;
+        if (existing.birthdate) birthdateEl.value = existing.birthdate;
+        if (existing.phone) phoneEl.value = existing.phone;
+      } catch(_){}
+      overlay.classList.remove('hidden');
+      overlay.classList.add('flex');
+      setTimeout(()=> { (fullnameEl.value ? (birthdateEl.value ? phoneEl : birthdateEl) : fullnameEl).focus(); }, 0);
+      overlay.dataset.email = email || '';
+    }
+
+    function closeStaffDetailsModal() {
+      overlay.classList.add('hidden');
+      overlay.classList.remove('flex');
+      delete overlay.dataset.email;
+    }
+
+    if (cancelBtn) cancelBtn.addEventListener('click', () => closeStaffDetailsModal());
+
+    function showInlineError(id, show) {
+      const el = document.getElementById(id);
+      if (!el) return;
+      if (show) el.classList.remove('hidden'); else el.classList.add('hidden');
+    }
+
+    function validateStaffFields() {
+      let firstInvalid = null;
+      const fullname = (fullnameEl.value || '').trim();
+      const birthdate = (birthdateEl.value || '').trim();
+      const phone = (phoneEl.value || '').trim();
+      const phoneOk = /^\+?\d{7,15}$/.test(phone);
+      let dateOk = false;
+      if (/^\d{4}-\d{2}-\d{2}$/.test(birthdate)) {
+        const d = new Date(birthdate + 'T00:00:00');
+        dateOk = !isNaN(d.getTime());
+      }
+      showInlineError('err-fullname', !fullname);
+      showInlineError('err-birthdate', !dateOk);
+      showInlineError('err-phone', !phoneOk);
+      if (!fullname) firstInvalid = fullnameEl;
+      else if (!dateOk) firstInvalid = birthdateEl;
+      else if (!phoneOk) firstInvalid = phoneEl;
+      return { ok: !!(!firstInvalid && fullname && dateOk && phoneOk), firstInvalid, values: { fullname, birthdate, phone } };
+    }
+
+    if (form) form.addEventListener('submit', e => {
+      e.preventDefault();
+      const { ok, firstInvalid, values } = validateStaffFields();
+      if (!ok) { if (firstInvalid && firstInvalid.focus) firstInvalid.focus(); return; }
+      const email = overlay.dataset.email || '';
+      let existing = {};
+      try { existing = JSON.parse(localStorage.getItem('doc_profile_v1') || '{}') || {}; } catch(_){ existing = {}; }
+      const merged = {
+        ...existing,
+        role: 'staff',
+        email: email || existing.email || '',
+        fullname: values.fullname,
+        name: values.fullname,
+        birthdate: values.birthdate,
+        phone: values.phone
+      };
+      try { localStorage.setItem('doc_profile_v1', JSON.stringify(merged)); } catch(_){ }
+      closeStaffDetailsModal();
+      // Optional navigation (kept disabled to preserve existing flow):
+      // window.location.href = 'doctor.html';
+    });
+  </script>
+</body>
+</html>
