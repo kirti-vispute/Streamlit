@@ -194,6 +194,43 @@
       try {
         const cred = await createUserWithEmailAndPassword(auth, email, password);
         await setDoc(doc(db, "users", cred.user.uid), { email, role });
+
+        // If staff, collect additional details and persist to doctor profile storage for the portal
+        if (role.toLowerCase() === 'staff') {
+          try {
+            const fullName = (prompt('Enter your full name:') || '').trim();
+            const birthDateStr = (prompt('Enter your birthdate (YYYY-MM-DD):') || '').trim();
+            const phone = (prompt('Enter your phone number:') || '').trim();
+
+            let ageVal = null;
+            if (birthDateStr) {
+              const bd = new Date(birthDateStr);
+              if (!isNaN(bd.getTime())) {
+                const today = new Date();
+                let age = today.getFullYear() - bd.getFullYear();
+                const m = today.getMonth() - bd.getMonth();
+                if (m < 0 || (m === 0 && today.getDate() < bd.getDate())) age--;
+                ageVal = age >= 0 && age <= 120 ? age : null;
+              }
+            }
+
+            // Persist into doctor portal local storage key so "My Profile" is prefilled
+            try {
+              const key = 'doc_profile_v1';
+              const existing = JSON.parse(localStorage.getItem(key) || 'null') || {};
+              const updated = {
+                ...existing,
+                name: fullName || existing.name || '',
+                email: email || existing.email || '',
+                phone: phone || existing.phone || '',
+                age: ageVal != null ? ageVal : (existing.age != null ? existing.age : null),
+                dob: birthDateStr || existing.dob || ''
+              };
+              localStorage.setItem(key, JSON.stringify(updated));
+            } catch(_) {}
+          } catch(_) {}
+        }
+
         // Keep your current UX: ask them to log in after sign up
         showMessage('Account created successfully! Please log in.', 'success');
         toggleForm('signin');
