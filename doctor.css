@@ -1,0 +1,170 @@
+/* doctor.css - keeps the same design as patient site
+   + small utility mappings so Tailwind-like classes such as
+   bg-sage-600 / text-sage-700 work consistently across browsers.
+   Colors and overall look kept exactly as requested. */
+
+/* gradient background used site-wide (unchanged) */
+.gradient-bg {
+  background: linear-gradient(180deg, #f7f9f3 0%, #f2f6ec 60%, #f6f7f0 100%);
+}
+
+/* hide/show pages (JS toggles) */
+.page-content { display: none; }
+.page-content.visible, .page-content.active { display: block; }
+
+/* --- Utility mappings (safe, non-invasive) ---
+   These create the "sage" color utilities referenced in the HTML.
+   They do not alter your visual design beyond making the utilities work.
+*/
+.bg-sage-600 { background-color: #567a3e !important; }
+.hover\:bg-sage-700:hover { background-color: #3f5b2d !important; }
+.text-sage-700 { color: #234d36 !important; }
+.text-sage-800 { color: #365036 !important; }
+.text-sage-900 { color: #233922 !important; }
+.bg-sage-50 { background-color: #f6f7f0 !important; }
+.border-sage-100 { border-color: rgba(107,142,78,0.06) !important; }
+
+/* big feature tiles */
+.feature-tile {
+  background: white;
+  border-radius: 14px;
+  padding: 36px 18px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  box-shadow: 0 12px 20px rgba(49, 72, 55, 0.06);
+  border: 1px solid rgba(107,142,78,0.06);
+  transition: transform .18s ease, box-shadow .18s ease;
+  min-height: 130px;
+  text-align: center;
+  cursor: pointer;
+}
+.feature-tile:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 24px 36px rgba(49,72,55,0.10);
+}
+
+.tile-icon {
+  width: 44px;
+  height: 44px;
+  color: #567a3e;
+}
+.tile-label {
+  font-weight: 700;
+  font-size: 18px;
+  color: #365036;
+}
+
+/* emergency tile style */
+.emergency-tile { background: #fff0f0; border-color: #ffd7d7; }
+.emergency-icon { color: #c92a2a; }
+.emergency-label { color: #b91c1c; }
+
+/* shared buttons */
+.btn-back {
+  background: white;
+  border: 1px solid #e6efe6;
+  color: #234d36;
+  padding: 8px 14px;
+  border-radius: 999px;
+  font-weight: 600;
+}
+.btn-back:hover { background: #f6f7f0; }
+
+.go-dashboard { padding: 8px 12px; }
+
+/* tile typography */
+.feature-tile .tile-label {
+  display: block;
+  margin-top: 6px;
+  font-family: 'Inter', sans-serif;
+}
+
+/* form & card helpers */
+input[type="text"], input[type="email"], input[type="date"], input[type="time"],
+select, textarea {
+  border: 1px solid #e6efe6;
+  padding: 10px;
+  border-radius: 8px;
+  outline: none;
+}
+input:focus, textarea:focus {
+  box-shadow: 0 0 0 3px rgba(86,122,62,0.12);
+}
+
+/* Ensure header is above other content */
+header.sticky { z-index: 9999; position: sticky; top: 0; }
+
+/* ---- LOGOUT button fix (explicit rule so it is visible) ----
+   Color and shape match the existing design:
+   - Background: sage green (#567a3e) (same as other sage utilities)
+   - Text: white
+   - Rounded, subtle shadow for legibility on light backgrounds
+   - No change to palette; just ensures visibility
+*/
+#logout-button {
+  background-color: #567a3e;
+  color: #ffffff;
+  padding: 8px 14px;
+  border-radius: 999px;
+  font-weight: 600;
+  border: 1px solid rgba(0,0,0,0.04);
+  box-shadow: 0 6px 14px rgba(86,122,62,0.16);
+  cursor: pointer;
+  transition: transform .12s ease, box-shadow .12s ease, opacity .12s;
+  display: inline-block;
+  vertical-align: middle;
+}
+#logout-button:hover {
+  transform: translateY(-1px);
+  background-color: #3f5b2d; /* hover variant (slightly darker) */
+}
+
+/* Accessibility: ensure focus visible */
+#logout-button:focus { outline: 3px solid rgba(86,122,62,0.18); outline-offset: 2px; }
+
+/* Small responsive tweaks for header buttons */
+@media (max-width: 640px) {
+  #logout-button { padding: 6px 10px; font-size: 14px; }
+}
+
+/* toast */
+#toast-root { pointer-events: none; }
+.toast {
+  pointer-events: auto;
+  display: inline-block;
+  background: #567a3e;
+  color: white;
+  padding: 10px 16px;
+  border-radius: 10px;
+  box-shadow: 0 8px 20px rgba(34,68,61,0.12);
+  font-weight: 600;
+}
+.toast.error { background: #ef4444; }
+
+/* pills (used for allergies, etc.) */
+.small-pill {
+  background:#f6f7f0;
+  padding:4px 8px;
+  border-radius:999px;
+  font-weight:600;
+  color:#39502c;
+  display: inline-flex;
+  align-items: center;
+}
+.small-pill button {
+  margin-left: 4px;
+  color: #c92a2a;
+  font-weight: bold;
+}
+
+/* small responsive */
+@media (max-width: 1024px) {
+  .tile-icon { width: 40px; height: 40px; }
+  .tile-label { font-size: 16px; }
+}
+@media (max-width: 640px) {
+  .feature-tile { padding: 24px 12px; min-height: 110px; }
+}

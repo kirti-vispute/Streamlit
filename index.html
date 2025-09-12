@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AyurSutra - Authentic Panchakarma Wellness Center</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&family=Crimson+Text:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+    <div class="scroll-indicator" id="scrollIndicator"></div>
+
+    <nav class="main-nav" id="navbar">
+        <div class="container nav-container">
+            <div class="logo-container">
+                <h1 class="font-serif logo-text">AyurSutra</h1>
+            </div>
+            <div class="nav-right-group">
+                <nav class="nav-links">
+                    <a href="#home">Home</a>
+                    <a href="#about">About Panchakarma</a>
+                    <a href="#benefits">Benefits</a>
+                    <a href="#process">Process</a>
+                    <a href="#testimonials">Testimonials</a>
+                </nav>
+                <div class="nav-actions">
+                    <button onclick="window.location.href='loginup.html'" class="btn-primary">
+                        Sign In / Up
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <section id="home" class="hero-section">
+        <div class="container">
+            <div class="hero-grid">
+                <div class="fade-in">
+                    <h1 class="font-serif hero-title">
+                        Ancient Wisdom for
+                        <span class="highlight">Modern Healing</span>
+                    </h1>
+                    <p class="font-text hero-subtitle">
+                        Experience the transformative power of authentic Panchakarma therapy. 
+                        Detoxify your body, rejuvenate your spirit, and restore perfect balance 
+                        through time-tested Ayurvedic practices.
+                    </p>
+                    <div class="hero-actions">
+                        <button onclick="window.location.href='loginup.html'" class="btn btn-primary">
+                            Book Now
+                        </button>
+                        <button onclick="scrollToSection('about')" class="btn btn-secondary">
+                            Learn More
+                        </button>
+                    </div>
+                </div>
+                <div class="fade-in floating">
+                    <div class="hero-image-wrapper">
+                        <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                             alt="Panchakarma Therapy" 
+                             class="hero-image">
+                        <div class="hero-image-overlay"></div>
+                        <div class="hero-image-caption">
+                            <p>Traditional Abhyanga</p>
+                            <p>Therapeutic Oil Massage</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="section section-white">
+        <div class="container">
+            <div class="section-header fade-in">
+                <h2 class="font-serif section-title">
+                    What is Panchakarma?
+                </h2>
+                <p class="font-text section-subtitle">
+                    Discover the ancient science of complete body purification and rejuvenation
+                </p>
+            </div>
+            
+            <div class="about-grid">
+                <div class="fade-in">
+                    <div class="about-box">
+                        <h3 class="font-serif about-box-title">The Five Sacred Actions</h3>
+                        <p class="font-text">
+                            Panchakarma, meaning "five actions," is the cornerstone of Ayurvedic detoxification. 
+                            These five therapeutic procedures work synergistically to eliminate toxins, 
+                            balance doshas, and restore your natural state of health and vitality.
+                        </p>
+                        <div class="actions-list">
+                            <div class="action-item"><div class="icon"><div class="icon-inner"></div></div><p class="font-text"><span>Vamana:</span> Therapeutic emesis for Kapha imbalances</p></div>
+                            <div class="action-item"><div class="icon"><div class="icon-inner"></div></div><p class="font-text"><span>Virechana:</span> Purification therapy for Pitta disorders</p></div>
+                            <div class="action-item"><div class="icon"><div class="icon-inner"></div></div><p class="font-text"><span>Basti:</span> Medicated enemas for Vata restoration</p></div>
+                            <div class="action-item"><div class="icon"><div class="icon-inner"></div></div><p class="font-text"><span>Nasya:</span> Nasal administration for head and neck region</p></div>
+                            <div class="action-item"><div class="icon"><div class="icon-inner"></div></div><p class="font-text"><span>Raktamokshana:</span> Blood purification therapy</p></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="fade-in">
+                    <div class="video-container">
+                        <div class="video-wrapper">
+                            <iframe 
+                                src="https://www.youtube.com/embed/sQ4g0-jC_wI" 
+                                title="A Visual Journey into Wellness"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                allowfullscreen>
+                            </iframe>
+                        </div>
+                        <div class="video-overlay">
+                            <div class="video-caption">
+                                <h4>The Art of Healing</h4>
+                                <p>A journey into Ayurvedic wellness.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="benefits" class="section section-gradient">
+        <div class="container">
+            <div class="section-header fade-in">
+                <h2 class="font-serif section-title">Transform Your Health</h2>
+                <p class="font-text section-subtitle">
+                    Experience the profound benefits of authentic Panchakarma therapy
+                </p>
+            </div>
+
+            <div class="benefits-grid">
+                <div class="benefit-card fade-in">
+                    <div class="icon-wrapper"><svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
+                    <h3 class="font-serif">Complete Detoxification</h3>
+                    <p class="font-text">Eliminate deep-seated toxins and restore cellular health through systematic purification processes.</p>
+                </div>
+
+                <div class="benefit-card fade-in">
+                    <div class="icon-wrapper"><svg fill="currentColor" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div>
+                    <h3 class="font-serif">Stress Relief</h3>
+                    <p class="font-text">Achieve profound relaxation and mental clarity through therapeutic treatments and meditation.</p>
+                </div>
+
+                <div class="benefit-card fade-in">
+                    <div class="icon-wrapper"><svg fill="currentColor" viewBox="0 0 24 24"><path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg></div>
+                    <h3 class="font-serif">Enhanced Immunity</h3>
+                    <p class="font-text">Strengthen your natural defense mechanisms and improve overall resistance to diseases.</p>
+                </div>
+
+                <div class="benefit-card fade-in">
+                    <div class="icon-wrapper"><svg fill="currentColor" viewBox="0 0 24 24"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg></div>
+                    <h3 class="font-serif">Increased Energy</h3>
+                    <p class="font-text">Experience renewed vitality and sustained energy levels throughout your daily activities.</p>
+                </div>
+
+                <div class="benefit-card fade-in">
+                    <div class="icon-wrapper"><svg fill="currentColor" viewBox="0 0 24 24"><path d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg></div>
+                    <h3 class="font-serif">Mental Clarity</h3>
+                    <p class="font-text">Improve focus, memory, and cognitive function through targeted neurological therapies.</p>
+                </div>
+
+                <div class="benefit-card fade-in">
+                    <div class="icon-wrapper"><svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg></div>
+                    <h3 class="font-serif">Emotional Balance</h3>
+                    <p class="font-text">Achieve emotional stability and inner peace through holistic mind-body healing approaches.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="process" class="section section-white">
+        <div class="container">
+            <div class="section-header fade-in">
+                <h2 class="font-serif section-title">Your Healing Journey</h2>
+                <p class="font-text section-subtitle">
+                    A personalized path to wellness guided by expert practitioners
+                </p>
+            </div>
+    
+            <div class="timeline-container">
+                <div class="timeline-line"></div>
+                <div class="timeline-items">
+                    <div class="timeline-item fade-in">
+                        <div class="timeline-content">
+                            <h3 class="font-serif">Initial Consultation</h3>
+                            <p class="font-text">
+                                Comprehensive assessment of your constitution, health history, and treatment goals with our experienced Ayurvedic practitioners.
+                            </p>
+                        </div>
+                        <div class="timeline-dot"><span>1</span></div>
+                        <div class="timeline-image-container">
+                            <img src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" 
+                                 alt="Consultation" class="timeline-image">
+                        </div>
+                    </div>
+    
+                    <div class="timeline-item fade-in">
+                        <div class="timeline-image-container">
+                             <img src="https://images.unsplash.com/photo-1544161515-4ab6ce6db874?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" 
+                                 alt="Preparation" class="timeline-image">
+                        </div>
+                        <div class="timeline-dot"><span>2</span></div>
+                        <div class="timeline-content">
+                            <h3 class="font-serif">Preparation Phase</h3>
+                            <p class="font-text">
+                                Pre-treatment preparation including dietary guidelines, herbal medicines, and preparatory therapies to ready your body.
+                            </p>
+                        </div>
+                    </div>
+    
+                    <div class="timeline-item fade-in">
+                        <div class="timeline-content">
+                            <h3 class="font-serif">Main Treatment</h3>
+                            <p class="font-text">
+                                Personalized Panchakarma procedures administered by certified therapists in a serene, healing environment.
+                            </p>
+                        </div>
+                        <div class="timeline-dot"><span>3</span></div>
+                        <div class="timeline-image-container">
+                             <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" 
+                                 alt="Treatment" class="timeline-image">
+                        </div>
+                    </div>
+    
+                    <div class="timeline-item fade-in">
+                        <div class="timeline-image-container">
+                             <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" 
+                                 alt="Recovery" class="timeline-image">
+                        </div>
+                        <div class="timeline-dot"><span>4</span></div>
+                        <div class="timeline-content">
+                            <h3 class="font-serif">Recovery & Follow-up</h3>
+                            <p class="font-text">
+                                Post-treatment care with dietary recommendations, lifestyle modifications, and ongoing support for optimal results.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="testimonials" class="section section-gradient">
+        <div class="container">
+            <div class="section-header fade-in">
+                <h2 class="font-serif section-title">Success Stories</h2>
+                <p class="font-text section-subtitle">Real transformations from our community</p>
+            </div>
+
+            <div class="testimonials-grid">
+                <div class="testimonial-card fade-in">
+                    <div class="testimonial-author">
+                        <img src="https://images.unsplash.com/photo-1494790108755-2616c06e14ca?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" alt="Sarah" />
+                        <div>
+                            <h4 class="font-serif">Sarah Mitchell</h4>
+                            <p>Marketing Executive</p>
+                        </div>
+                    </div>
+                    <p class="font-text">
+                        "After struggling with chronic stress and digestive issues for years, Panchakarma completely transformed my health. I feel more energetic and balanced than ever before."
+                    </p>
+                    <div class="rating-stars">
+                        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                    </div>
+                </div>
+
+                <div class="testimonial-card fade-in">
+                    <div class="testimonial-author">
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" alt="Rajesh" />
+                        <div>
+                            <h4 class="font-serif">Rajesh Patel</h4>
+                            <p>Software Engineer</p>
+                        </div>
+                    </div>
+                    <p class="font-text">
+                        "The personalized approach and attention to detail at AyurSutra exceeded my expectations. My arthritis pain has significantly reduced after the treatment."
+                    </p>
+                    <div class="rating-stars">
+                        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                    </div>
+                </div>
+
+                <div class="testimonial-card fade-in">
+                    <div class="testimonial-author">
+                        <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" alt="Priya" />
+                        <div>
+                            <h4 class="font-serif">Priya Sharma</h4>
+                            <p>Yoga Instructor</p>
+                        </div>
+                    </div>
+                    <p class="font-text">
+                        "The holistic approach here is truly authentic. I've experienced deep healing not just physically, but mentally and emotionally as well."
+                    </p>
+                    <div class="rating-stars">
+                        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <footer class="main-footer">
+        <div class="container">
+            <p>&copy; 2025 AyurSutra. All rights reserved. | Authentic Panchakarma Treatment Booking Platform</p>
+        </div>
+    </footer>
+
+    <script src="index.js"></script>
+</body>
+</html>
